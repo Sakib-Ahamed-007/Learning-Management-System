@@ -4,6 +4,7 @@
  */
 package com.primus.lms;
 
+import VideoCalling.Client1;
 import com.github.sarxos.webcam.Webcam;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -13,8 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
-
-import Data.Client1;
 /**
  *
  * @author smsak
@@ -40,9 +39,11 @@ public class Client extends javax.swing.JFrame {
     private void initComponents() {
 
         img_client = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        JoinCall = new javax.swing.JButton();
+        btnEndCall = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Student - Calling");
 
         img_client.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
         img_client.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -50,12 +51,21 @@ public class Client extends javax.swing.JFrame {
         img_client.setMinimumSize(new java.awt.Dimension(500, 500));
         img_client.setPreferredSize(new java.awt.Dimension(500, 500));
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 0));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Join Call");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        JoinCall.setBackground(new java.awt.Color(0, 0, 0));
+        JoinCall.setForeground(new java.awt.Color(255, 255, 255));
+        JoinCall.setText("Join Call");
+        JoinCall.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                JoinCallActionPerformed(evt);
+            }
+        });
+
+        btnEndCall.setBackground(new java.awt.Color(0, 0, 0));
+        btnEndCall.setForeground(new java.awt.Color(255, 255, 255));
+        btnEndCall.setText("End Call");
+        btnEndCall.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEndCallActionPerformed(evt);
             }
         });
 
@@ -65,29 +75,42 @@ public class Client extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addComponent(img_client, javax.swing.GroupLayout.PREFERRED_SIZE, 968, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(37, 37, 37))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(img_client, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(JoinCall)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEndCall)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
-                .addComponent(img_client, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addComponent(img_client, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(JoinCall, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEndCall, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+    
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    //Creating object of threaded client1 class.
+    Client1 client = new Client1();
+    private void JoinCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JoinCallActionPerformed
+        
+        client.start();
+    }//GEN-LAST:event_JoinCallActionPerformed
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnEndCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEndCallActionPerformed
+        // TODO add your handling code here:
+        client.interrupt();
+    }//GEN-LAST:event_btnEndCallActionPerformed
 
     /**
      * @param args the command line arguments
@@ -126,6 +149,7 @@ public class Client extends javax.swing.JFrame {
                 }
             }
         });
+        /*
         Socket s = new Socket("localhost", 7800);
             ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
             ImageIcon ic;
@@ -141,7 +165,7 @@ public class Client extends javax.swing.JFrame {
                 img_client.setIcon(ic);
                 
             }
-         
+        */ 
     }
     
     public void joinCall() throws IOException{
@@ -149,7 +173,8 @@ public class Client extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JButton JoinCall;
+    private javax.swing.JButton btnEndCall;
     public static javax.swing.JLabel img_client;
-    public static javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }

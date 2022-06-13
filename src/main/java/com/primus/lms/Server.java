@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 
-import Data.Server1;
+import VideoCalling.Server1;
 /**
  *
  * @author smsak
@@ -40,7 +40,9 @@ public class Server extends javax.swing.JFrame {
     private void initComponents() {
 
         img_server = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        StartCall = new javax.swing.JButton();
+        btnEndCall = new javax.swing.JButton();
+        jlWaitingMessage = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -49,20 +51,35 @@ public class Server extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Teacher - Calling");
+        setAlwaysOnTop(true);
+        setResizable(false);
 
         img_server.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         img_server.setMaximumSize(new java.awt.Dimension(500, 500));
         img_server.setMinimumSize(new java.awt.Dimension(500, 500));
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 0));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Start Call");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        StartCall.setBackground(new java.awt.Color(0, 0, 0));
+        StartCall.setForeground(new java.awt.Color(255, 255, 255));
+        StartCall.setText("Start Call");
+        StartCall.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                StartCallActionPerformed(evt);
             }
         });
+
+        btnEndCall.setBackground(new java.awt.Color(0, 0, 0));
+        btnEndCall.setForeground(new java.awt.Color(255, 255, 255));
+        btnEndCall.setText("End Call");
+        btnEndCall.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEndCallActionPerformed(evt);
+            }
+        });
+
+        jlWaitingMessage.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jlWaitingMessage.setForeground(new java.awt.Color(102, 102, 102));
 
         jMenu1.setText("Home");
 
@@ -96,36 +113,55 @@ public class Server extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(img_server, javax.swing.GroupLayout.PREFERRED_SIZE, 981, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(38, 38, 38))
+                .addContainerGap(30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jlWaitingMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(StartCall)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEndCall))
+                    .addComponent(img_server, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addComponent(img_server, javax.swing.GroupLayout.PREFERRED_SIZE, 506, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addComponent(img_server, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnEndCall, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(StartCall, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(21, 21, 21))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jlWaitingMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20))))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    // Creating object of the threaded server1 class.
+    Server1 server = new Server1();
+    private void StartCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartCallActionPerformed
         // TODO add your handling code here:
+        server.start();
         
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    
+    }//GEN-LAST:event_StartCallActionPerformed
+
+    private void btnEndCallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEndCallActionPerformed
+        // TODO add your handling code here:
+        server.interrupt();
+        img_server.setIcon(null);
+    }//GEN-LAST:event_btnEndCallActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,26 +204,27 @@ public class Server extends javax.swing.JFrame {
             }
         });
         
-        
+        /*
         ServerSocket server = new ServerSocket(7800);
-            Socket s = server.accept();
-        
-            ObjectInputStream in = new ObjectInputStream(s.getInputStream());
-            ImageIcon ic;
+        Socket s = server.accept();
+
+        ObjectInputStream in = new ObjectInputStream(s.getInputStream());
+        ImageIcon ic;
 
 
-            while(true){
-                ic = (ImageIcon) in.readObject();
-                img_server.setIcon(ic);
-            }
-        
+        while(true){
+            ic = (ImageIcon) in.readObject();
+            img_server.setIcon(ic);
+        }
+       */ 
     }
     
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JButton StartCall;
+    private javax.swing.JButton btnEndCall;
     public static javax.swing.JLabel img_server;
-    public static javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -195,5 +232,6 @@ public class Server extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JLabel jlWaitingMessage;
     // End of variables declaration//GEN-END:variables
 }
