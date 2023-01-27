@@ -1,0 +1,1 @@
+I made this small app as a project for Advanced programming course. In this project I just shown some database connection along with video calling feature using a third party module. All the backend codes were written in Java and front-end design was done by Java swing components on Netbeans IDE.
